@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://fim-designs.com/sitemap.xml

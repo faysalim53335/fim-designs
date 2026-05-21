@@ -1,0 +1,136 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  Faysal I. Malik · fim-designs.com                               ║
+║  GitHub Pages Free Hosting + GoDaddy Custom Domain              ║
+║  Deployment Guide  ·  v19  ·  May 2026                          ║
+╚══════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  FILES IN THIS PACKAGE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  index.html           Portfolio (self-contained, all assets inline)
+  CNAME                Routes fim-designs.com → GitHub Pages
+  .nojekyll            Prevents GitHub breaking the HTML
+  404.html             Redirects unknown URLs to homepage
+  robots.txt           Google: index this site
+  sitemap.xml          Google: find and rank pages
+  DEPLOYMENT-GUIDE.txt This file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STEP 1 — CREATE GITHUB ACCOUNT  (skip if you have one)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Go to: https://github.com → Sign up
+  2. Username: e.g. faysalim  (you'll use this in DNS step)
+  3. Email: faysal.i.m@gmail.com · Password: your choice
+  4. Choose FREE plan
+  5. Verify your email
+
+  ✅  Your profile: github.com/YOUR-USERNAME
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STEP 2 — CREATE REPOSITORY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. github.com → click "+" (top right) → "New repository"
+  2. Name: fim-designs
+  3. Visibility: ● Public  (REQUIRED for free GitHub Pages)
+  4. Leave all checkboxes unchecked
+  5. Click "Create repository"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STEP 3 — UPLOAD ALL 7 FILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Extract the ZIP. Show hidden files first:
+    Windows: File Explorer → View → tick "Hidden items"
+    Mac:     Press Cmd + Shift + .   (dot key)
+
+  1. On your empty repo page, click "uploading an existing file"
+  2. Select all 7 files from the extracted folder
+  3. Drag into the browser window
+  4. Commit message: "Deploy v19"
+  5. Click "Commit changes"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STEP 4 — ENABLE GITHUB PAGES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Repo → Settings → Pages  (left sidebar)
+  2. Source: main branch, / (root) → Save
+  3. Custom domain: fim-designs.com → Save
+  4. Don't enable HTTPS yet — do that after DNS in Step 5
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STEP 5 — CONFIGURE GODADDY DNS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  godaddy.com → My Products → fim-designs.com → DNS
+
+  DELETE any existing A record for "@"
+
+  ADD these 4 A records:
+  ┌──────┬──────┬─────────────────────┬─────┐
+  │ Type │ Name │ Value               │ TTL │
+  ├──────┼──────┼─────────────────────┼─────┤
+  │ A    │  @   │ 185.199.108.153     │ 600 │
+  │ A    │  @   │ 185.199.109.153     │ 600 │
+  │ A    │  @   │ 185.199.110.153     │ 600 │
+  │ A    │  @   │ 185.199.111.153     │ 600 │
+  └──────┴──────┴─────────────────────┴─────┘
+
+  ADD this CNAME record:
+  ┌───────┬──────┬────────────────────────────────┬──────┐
+  │ Type  │ Name │ Value                          │ TTL  │
+  ├───────┼──────┼────────────────────────────────┼──────┤
+  │ CNAME │ www  │ YOUR-USERNAME.github.io        │ 3600 │
+  └───────┴──────┴────────────────────────────────┴──────┘
+
+  Example: GitHub username = faysalim → value = faysalim.github.io
+
+  ⏳  Wait 30-60 minutes (up to 48h). Check: dnschecker.org
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STEP 6 — ENABLE HTTPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Repo → Settings → Pages → tick "Enforce HTTPS" → Save
+  (Available after DNS propagates. GitHub provides SSL free.)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  STEP 7 — VERIFY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ✅  https://fim-designs.com          → portfolio loads
+  ✅  https://www.fim-designs.com      → redirects to above
+  ✅  Green padlock in browser bar     → HTTPS active
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  UPDATING THE SITE LATER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  github.com/YOUR-USERNAME/fim-designs → click index.html
+  → pencil icon ✏ → select all → delete → paste new index.html
+  → Commit changes → live within 2 minutes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Site not loading → verify 4 A records in GoDaddy match exactly
+  No HTTPS padlock → wait 24h after DNS, then tick Enforce HTTPS
+  GitHub 404 page  → confirm index.html + CNAME at repo root
+  Site shows code  → confirm .nojekyll is uploaded
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COSTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  GitHub hosting:  $0/year  (free forever)
+  SSL certificate: $0/year  (GitHub provides it)
+  Domain:          Already purchased via GoDaddy ✅
+  Total ongoing:   $0/year  (domain renewal only when due)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  v19 · fim-designs.com · May 2026 · faysal.i.m@gmail.com
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
