@@ -38,8 +38,8 @@
 
 /* ── RESET ──────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--wh);font-family:var(--F);line-height:1.6;overflow-x:hidden;cursor:none}
+html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
+body{background:var(--bg);color:var(--wh);font-family:var(--F);line-height:1.6;overflow-x:hidden;max-width:100vw;cursor:none}
 a{text-decoration:none;color:inherit}
 img{display:block;max-width:100%}
 button{font-family:var(--F);cursor:pointer}
@@ -63,6 +63,8 @@ button{font-family:var(--F);cursor:pointer}
   position:fixed;inset:0;z-index:9999;background:var(--bg);
   display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.8rem;
   transition:opacity .7s ease,visibility .7s ease;
+  width:100%;height:100%;
+  text-align:center;
 }
 #loader.gone{opacity:0;visibility:hidden;pointer-events:none}
 #ld-logo{height:36px;width:auto}
@@ -458,7 +460,7 @@ section{padding:var(--sec) 5%}
 }
 .clink-v{font-size:.88rem;font-weight:400}
 /* OT section inside info col */
-.con-ot{margin-top:2.2rem}
+.con-ot{margin-top:2.2rem;overflow:hidden}
 .avail-hd{
   font-size:.54rem;font-weight:700;letter-spacing:.3em;
   text-transform:uppercase;color:var(--ol);
@@ -695,8 +697,35 @@ footer{
   .mqbar{padding:.6rem 0}
 
   /* ── EXPERTISE CARDS ── */
-  .ecards{grid-template-columns:1fr}
-  .ec,.ec-inner{min-height:340px}
+  .ecards{
+    grid-template-columns:1fr;
+    gap:0;
+    background:var(--b0);
+  }
+  .ec{min-height:auto}
+  /* Each card: inner driven by front face content */
+  .ec-inner{
+    min-height:320px;
+    height:auto !important;
+  }
+  /* Front: relative flow — no blank void */
+  .ec-front{
+    position:relative !important;
+    inset:auto !important;
+    min-height:320px;
+    padding:2rem !important;
+  }
+  /* Back: absolute fills front height */
+  .ec-back{
+    position:absolute !important;
+    inset:0 !important;
+    padding:2rem !important;
+  }
+  /* Tags wrap cleanly */
+  .ec-tags{flex-wrap:wrap;gap:.4rem;margin-top:1.2rem}
+  .etag{font-size:.54rem}
+  .ec-h{font-size:1.1rem}
+  .ec-p{font-size:.78rem}
 
   /* ── ABOUT ── */
   .abgrid{gap:2rem}
@@ -704,10 +733,10 @@ footer{
   .anv{font-size:2.8rem}
 
   /* ── TIMELINE ── */
-  .tl{padding-left:2rem}
+  .tl{padding-left:2rem;overflow:hidden}
   .tli-dot{left:-2.25rem}
   .tli-body{flex-direction:column;gap:.8rem}
-  .tli-tags{max-width:100%;justify-content:flex-start}
+  .tli-tags{max-width:100%;justify-content:flex-start;flex-wrap:wrap}
   .tli-role{font-size:1.1rem}
 
   /* ── SKILLS ── */
@@ -730,6 +759,8 @@ footer{
     flex-direction:column;
     gap:0;
     margin-top:2rem;
+    overflow:hidden;
+    width:100%;
   }
   .con-foot{
     grid-template-columns:1fr;
@@ -1170,7 +1201,7 @@ footer{
       <div class="tli"><div class="tli-dot"></div><div class="tli-chapter">The UAE Chapter</div><div class="tli-m"><span class="tli-yr">Aug 2016 — Sep 2018</span><span class="tli-loc">Dubai, UAE</span></div><div class="tli-role">Creative Manager</div><div class="tli-body"><div class="tli-desc"><div class="tli-co">Ali Global Ventures LLC, Dubai &mdash; Led brand, creative &amp; marketing across multiple ventures. Built strong UAE market presence to international standards.</div></div><div class="tli-tags"><span class="tli-tag">Brand Identity</span><span class="tli-tag">Campaigns</span><span class="tli-tag">UAE Market</span></div></div></div>
       <div class="tli"><div class="tli-dot"></div><div class="tli-chapter">The Luxury Chapter</div><div class="tli-m"><span class="tli-yr">Jan 2015 — Jul 2016</span><span class="tli-loc">Dubai, UAE</span></div><div class="tli-role">3D Creative Designer &amp; PA to MD</div><div class="tli-body"><div class="tli-desc"><div class="tli-co">B-JAMS · Bash Hesnef Interiors, Dubai &mdash; Luxury interior visualization for high-value commercial &amp; residential projects. Creative direction aligned to MD level.</div></div><div class="tli-tags"><span class="tli-tag">Luxury Interiors</span><span class="tli-tag">3D Render</span><span class="tli-tag">Dubai</span><span class="tli-tag">VRay</span></div></div></div>
       <div class="tli"><div class="tli-dot"></div><div class="tli-chapter">The Digital Chapter</div><div class="tli-m"><span class="tli-yr">Aug 2013 — Dec 2014</span><span class="tli-loc">Lahore, PK</span></div><div class="tli-role">UI / UX Designer</div><div class="tli-body"><div class="tli-desc"><div class="tli-co">Pantera Engineering Solutions · Plan 9 Incubator · PITB &mdash; Enterprise-grade UX for engineering platforms. Digital fluency forged where pixel craft met systems thinking.</div></div><div class="tli-tags"><span class="tli-tag">UI/UX</span><span class="tli-tag">Enterprise</span><span class="tli-tag">Plan 9</span><span class="tli-tag">Prototyping</span></div></div></div>
-      <div class="tli"><div class="tli-dot"></div><div class="tli-chapter">The Origin Chapter</div><div class="tli-m"><span class="tli-yr">2009 — Ongoing</span><span class="tli-loc">Global</span></div><div class="tli-role">Creative Consultant</div><div class="tli-body"><div class="tli-desc"><div class="tli-co">Independent Practice &mdash; where it all began, and never stopped. 16+ years as outsourced Creative Director &amp; CX Strategist for clients across Pakistan, UAE, and beyond.</div></div><div class="tli-tags"><span class="tli-tag">Creative Consulting</span><span class="tli-tag">CX</span><span class="tli-tag">Brand</span><span class="tli-tag">Global</span></div></div></div>
+      
     </div>
 
     <!-- SKILLS: same section, visually separated with a divider — no padding hack -->
