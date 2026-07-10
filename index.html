@@ -439,21 +439,106 @@ section{padding:var(--sec) 5%}
   color:var(--t3);display:flex;align-items:center;gap:.6rem;
 }
 
-/* ── PORTFOLIO ──────────────────────────────────── */
-.drive-note{
-  font-size:.68rem;font-weight:400;letter-spacing:.06em;color:var(--t2);
-  margin-bottom:1.2rem;padding:.9rem 1.2rem;border:1px solid var(--b0);background:var(--surf);line-height:1.65;
+/* ── PORTFOLIO — NATIVE CASE-STUDY GALLERY ──────── */
+.cs-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;
+  background:var(--b0);margin-top:3.5rem;
 }
-.drive-note b{color:var(--ol)}
-.drive-wrap{border:1px solid var(--b0);overflow:hidden;margin-top:2rem;position:relative}
-/* iframe gets its own cursor so custom cursor doesn't break it */
-.drive-wrap iframe{
-  width:100%;height:700px;border:0;display:block;
-  filter:invert(1) hue-rotate(175deg) brightness(.88) contrast(.94) saturate(.82);
-  cursor:auto;  /* restore default cursor inside iframe */
+.cs-card{
+  display:flex;flex-direction:column;background:var(--card);
+  position:relative;overflow:hidden;
+  transition:background .35s,transform .45s var(--ease),box-shadow .45s;
+}
+.cs-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2.5px;
+  background:linear-gradient(90deg,var(--te),var(--ol),var(--ol-l));
+  transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease);
+}
+.cs-card:hover,.cs-card:focus-visible{
+  background:var(--card-h);transform:translateY(-6px);
+  box-shadow:0 18px 44px rgba(0,0,0,.42);z-index:2;
+}
+.cs-card:hover::after,.cs-card:focus-visible::after{transform:scaleX(1)}
+.cs-cover{
+  position:relative;aspect-ratio:16/9.5;overflow:hidden;
+  background:
+    radial-gradient(ellipse 90% 120% at 78% -10%,rgba(124,102,41,.16) 0%,transparent 55%),
+    radial-gradient(ellipse 70% 100% at 12% 110%,rgba(73,53,29,.2) 0%,transparent 60%),
+    linear-gradient(150deg,#14170C 0%,#0C0E07 100%);
+  border-bottom:1px solid var(--b0);
+}
+.cs-leaf{
+  position:absolute;left:var(--lx,20%);top:var(--ly,10%);
+  width:78%;aspect-ratio:286.24/189.36;
+  transform:rotate(var(--lr,0deg)) scale(var(--ls,1.5));
+  opacity:.5;filter:saturate(1.06);
+  transition:transform .8s var(--ease),opacity .5s;
+}
+.cs-card:hover .cs-leaf{
+  transform:rotate(calc(var(--lr,0deg) + 5deg)) scale(calc(var(--ls,1.5) * 1.08));
+  opacity:.68;
+}
+.cs-idx{
+  position:absolute;right:1.1rem;bottom:.4rem;
+  font-size:4.2rem;font-weight:900;line-height:1;letter-spacing:-.04em;
+  color:rgba(237,232,208,.07);user-select:none;
+  transition:color .4s;
+}
+.cs-card:hover .cs-idx{color:rgba(179,154,69,.2)}
+.cs-body{display:flex;flex-direction:column;flex:1;padding:1.7rem 1.7rem 1.5rem}
+.cs-cat{
+  font-size:.54rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--ol-l);margin-bottom:.8rem;
+}
+.cs-h{
+  font-size:1.02rem;font-weight:900;text-transform:uppercase;letter-spacing:.01em;
+  color:var(--wh);line-height:1.28;margin-bottom:.7rem;
+}
+.cs-p{font-size:.78rem;font-weight:300;line-height:1.75;color:var(--t1);flex:1}
+.cs-meta{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  margin-top:1.4rem;padding-top:1.1rem;border-top:1px solid var(--b0);
+}
+.cs-stat{
+  font-size:.6rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:var(--ol-l);
+}
+.cs-view{
+  font-size:.54rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);
+  transition:color .3s,transform .3s;
+}
+.cs-card:hover .cs-view{color:var(--ol-l);transform:translateX(3px)}
+@media(max-width:1100px){.cs-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){
+  .cs-grid{grid-template-columns:1fr;margin-top:2rem}
+  .cs-body{padding:1.4rem 1.3rem 1.2rem}
 }
 .port-cta{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-top:1.8rem}
 .port-cta-note{font-size:.64rem;font-weight:400;letter-spacing:.08em;color:var(--t2)}
+
+/* ── v24 MOTION LAYER ───────────────────────────── */
+/* hero surname: per-letter stagger (spans injected by JS) */
+.hn-bot .lt-ch{
+  display:inline-block;
+  opacity:0;transform:translateY(.55em) rotate(4deg);
+  animation:chup .85s var(--ease) forwards;
+  animation-delay:calc(.55s + var(--ci) * .055s);
+}
+@keyframes chup{to{opacity:1;transform:translateY(0) rotate(0)}}
+/* deeper reveal: slight blur settles as elements rise */
+.rv{filter:blur(6px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease)}
+.rv.on{filter:blur(0)}
+/* timeline line draws in as you scroll (JS drives --tlp) */
+.tl::before{transform:scaleY(var(--tlp,1));transform-origin:top}
+.tli.on .tli-dot{animation:dotpop .55s var(--ease)}
+@keyframes dotpop{0%{transform:scale(0)}70%{transform:scale(1.6)}100%{transform:scale(1)}}
+/* magnetic buttons get a transform transition fallback */
+.btn-p,.btn-s,.nbtn{will-change:transform}
+@media (prefers-reduced-motion:reduce){
+  .rv{filter:none}
+  .hn-bot .lt-ch{opacity:1 !important;transform:none !important;animation:none !important}
+  .tl::before{transform:none}
+  .cs-leaf,.cs-card{transition:none}
+}
 
 /* ── TIMELINE ───────────────────────────────────── */
 .tl{margin-top:4.5rem;padding-left:3.5rem;position:relative}
@@ -1126,10 +1211,10 @@ footer{
       <div class="hey-sep"></div>
       <span class="hey-loc">Lahore &nbsp;·&nbsp; Dubai &nbsp;·&nbsp; Global Remote</span>
     </div>
-    <div class="hname">
+    <h1 class="hname">
       <span class="hn-top"><span>FAYSAL IDREES</span></span>
       <span class="hn-bot"><span>MALIK</span></span>
-    </div>
+    </h1>
     <div class="hrole">
       <span class="hrole-i">Multidisciplinary Design Leader</span>
       <div class="hrole-s"></div>
@@ -1379,19 +1464,72 @@ footer{
     <p class="stag rv">Selected Work</p>
     <h2 class="sh rv d1">COMPLETE<br><em>PORTFOLIO</em></h2>
     <p class="rv d2" style="font-size:.98rem;font-weight:300;line-height:1.9;color:var(--t1);max-width:600px;margin-top:1.5rem">15+ years across branding, enterprise UI/UX, 3D architectural visualization, digital marketing, and AI-augmented design — his actual work files embedded from Google Drive.</p>
-    <p class="drive-note rv d2"><b>Live portfolio — actual files from Google Drive.</b> &nbsp;"Complete Portfolio version 2025". If a sign-in prompt appears: Drive → right-click folder → Share → <b>"Anyone with the link → Viewer"</b>. Dark mode CSS filter applied automatically.</p>
-    <div class="drive-wrap rv d3">
-      <iframe
-        id="drive-iframe"
-        src="https://drive.google.com/embeddedfolderview?id=1pO9TuiQuRnq7DLXKC-HhkmRl4W4jGekZ#grid"
-        title="Complete Portfolio 2025"
-        allowfullscreen
-        loading="lazy">
-      </iframe>
+    <div class="cs-grid">
+
+      <a class="cs-card" href="https://drive.google.com/drive/folders/1pO9TuiQuRnq7DLXKC-HhkmRl4W4jGekZ?usp=drive_link" target="_blank" rel="noopener">
+        <div class="cs-cover"><svg class="cs-leaf" style="--lr:-16deg;--lx:14%;--ly:22%;--ls:1.65" aria-hidden="true" focusable="false" viewBox="0 0 286.24 189.36"><use href="#fim"/></svg><span class="cs-idx" aria-hidden="true">01</span></div>
+        <div class="cs-body">
+          <p class="cs-cat">Brand Identity</p>
+          <h3 class="cs-h">Identity Ecosystems Built to Outlast Trend Cycles</h3>
+          <p class="cs-p">From a single mark to full brand architecture — identity systems, guidelines, and campaign creatives that stay strategic and differentiated.</p>
+          <div class="cs-meta"><span class="cs-stat">15+ years</span><span class="cs-view">View files <span aria-hidden="true">↗</span></span></div>
+        </div>
+      </a>
+
+      <a class="cs-card" href="https://drive.google.com/drive/folders/1pO9TuiQuRnq7DLXKC-HhkmRl4W4jGekZ?usp=drive_link" target="_blank" rel="noopener">
+        <div class="cs-cover"><svg class="cs-leaf" style="--lr:24deg;--lx:58%;--ly:-8%;--ls:1.4" aria-hidden="true" focusable="false" viewBox="0 0 286.24 189.36"><use href="#fim"/></svg><span class="cs-idx" aria-hidden="true">02</span></div>
+        <div class="cs-body">
+          <p class="cs-cat">Enterprise UX</p>
+          <h3 class="cs-h">SAP Fiori / UI5 — Designed for Millions of Users</h3>
+          <p class="cs-p">Enterprise-grade interfaces, journey maps, and design systems for complex ERP platforms — certified at CalArts and the University of Michigan.</p>
+          <div class="cs-meta"><span class="cs-stat">SAP-certified</span><span class="cs-view">View files <span aria-hidden="true">↗</span></span></div>
+        </div>
+      </a>
+
+      <a class="cs-card" href="https://drive.google.com/drive/folders/1pO9TuiQuRnq7DLXKC-HhkmRl4W4jGekZ?usp=drive_link" target="_blank" rel="noopener">
+        <div class="cs-cover"><svg class="cs-leaf" style="--lr:-30deg;--lx:34%;--ly:38%;--ls:1.9" aria-hidden="true" focusable="false" viewBox="0 0 286.24 189.36"><use href="#fim"/></svg><span class="cs-idx" aria-hidden="true">03</span></div>
+        <div class="cs-body">
+          <p class="cs-cat">3D Architectural Visualization</p>
+          <h3 class="cs-h">Luxury Interiors &amp; Renders That Close Million-Dirham Deals</h3>
+          <p class="cs-p">Photorealistic 3Ds Max + VRay visualization for Dubai's luxury interior market and pre-construction real-estate sales in Lahore.</p>
+          <div class="cs-meta"><span class="cs-stat">Dubai · UAE</span><span class="cs-view">View files <span aria-hidden="true">↗</span></span></div>
+        </div>
+      </a>
+
+      <a class="cs-card" href="https://drive.google.com/drive/folders/1pO9TuiQuRnq7DLXKC-HhkmRl4W4jGekZ?usp=drive_link" target="_blank" rel="noopener">
+        <div class="cs-cover"><svg class="cs-leaf" style="--lr:12deg;--lx:-10%;--ly:6%;--ls:1.5" aria-hidden="true" focusable="false" viewBox="0 0 286.24 189.36"><use href="#fim"/></svg><span class="cs-idx" aria-hidden="true">04</span></div>
+        <div class="cs-body">
+          <p class="cs-cat">Digital Marketing &amp; Growth</p>
+          <h3 class="cs-h">Growth Is Designed, Not Discovered</h3>
+          <p class="cs-p">Google Ads strategy, SEO/SEM campaigns, and performance creatives — Adobe Analytics and AEM in production. Data and creativity, inseparable.</p>
+          <div class="cs-meta"><span class="cs-stat">Google-certified</span><span class="cs-view">View files <span aria-hidden="true">↗</span></span></div>
+        </div>
+      </a>
+
+      <a class="cs-card" href="https://drive.google.com/drive/folders/1pO9TuiQuRnq7DLXKC-HhkmRl4W4jGekZ?usp=drive_link" target="_blank" rel="noopener">
+        <div class="cs-cover"><svg class="cs-leaf" style="--lr:40deg;--lx:52%;--ly:30%;--ls:1.7" aria-hidden="true" focusable="false" viewBox="0 0 286.24 189.36"><use href="#fim"/></svg><span class="cs-idx" aria-hidden="true">05</span></div>
+        <div class="cs-body">
+          <p class="cs-cat">Generative AI &amp; AIX</p>
+          <h3 class="cs-h">AI-Augmented Design in Production Pipelines</h3>
+          <p class="cs-p">Prompt engineering, AI agent orchestration, and generative brand assets — plus SAP Cloud ALM implementation and Web3/DApp UX.</p>
+          <div class="cs-meta"><span class="cs-stat">AIX Design</span><span class="cs-view">View files <span aria-hidden="true">↗</span></span></div>
+        </div>
+      </a>
+
+      <a class="cs-card" href="https://drive.google.com/drive/folders/1pO9TuiQuRnq7DLXKC-HhkmRl4W4jGekZ?usp=drive_link" target="_blank" rel="noopener">
+        <div class="cs-cover"><svg class="cs-leaf" style="--lr:-8deg;--lx:20%;--ly:-14%;--ls:1.45" aria-hidden="true" focusable="false" viewBox="0 0 286.24 189.36"><use href="#fim"/></svg><span class="cs-idx" aria-hidden="true">06</span></div>
+        <div class="cs-body">
+          <p class="cs-cat">Creative Leadership</p>
+          <h3 class="cs-h">Agile-Driven Teams, +30% Delivery Velocity</h3>
+          <p class="cs-p">Creative direction across Pakistan and the UAE — mentoring teams, introducing Agile workflows, and aligning brand output to C-suite strategy.</p>
+          <div class="cs-meta"><span class="cs-stat">+30% velocity</span><span class="cs-view">View files <span aria-hidden="true">↗</span></span></div>
+        </div>
+      </a>
+
     </div>
     <div class="port-cta rv">
-      <a href="https://drive.google.com/drive/folders/1pO9TuiQuRnq7DLXKC-HhkmRl4W4jGekZ?usp=drive_link" target="_blank" rel="noopener" class="btn-p">Open in Google Drive &nbsp;<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 6.5H12M6.5 1L12 6.5L6.5 12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></a>
-      <span class="port-cta-note">Complete Portfolio 2025 &nbsp;·&nbsp; 15+ years of work</span>
+      <a href="https://drive.google.com/drive/folders/1pO9TuiQuRnq7DLXKC-HhkmRl4W4jGekZ?usp=drive_link" target="_blank" rel="noopener" class="btn-p">Browse Full Archive on Google Drive &nbsp;<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1 6.5H12M6.5 1L12 6.5L6.5 12" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></a>
+      <span class="port-cta-note">Complete Portfolio 2025 &nbsp;·&nbsp; actual work files &nbsp;·&nbsp; 15+ years</span>
     </div>
   </div>
 </section>
@@ -1573,11 +1711,11 @@ footer{
       <div class="doc-btns">
         <button class="doc-btn" onclick="openPDF('resume')" type="button">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="1" width="9" height="12" rx="1" stroke="currentColor" stroke-width="1.4"/><path d="M5 4h4M5 7h4M5 10h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-          View R&eacute;sum&eacute; &mdash; June 2026
+          View R&eacute;sum&eacute; &mdash; July 2026
         </button>
         <button class="doc-btn" onclick="openPDF('coverletter')" type="button">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 4l5 4 5-4M2 3h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          View Cover Letter &mdash; June 2026
+          View Cover Letter &mdash; July 2026
         </button>
       </div>
     </div>
@@ -1669,13 +1807,96 @@ document.addEventListener('mousemove', e => {
   requestAnimationFrame(raf);
 })();
 
-/* hide custom cursor when hovering over the iframe */
-const driveFrame = document.getElementById('drive-iframe');
-if (driveFrame) {
-  const dw = driveFrame.parentElement;
-  dw.addEventListener('mouseenter', () => document.body.classList.add('in-iframe'));
-  dw.addEventListener('mouseleave', () => document.body.classList.remove('in-iframe'));
+/* ══════════ v24 MOTION LAYER ══════════
+   Vanilla WAAPI/rAF — zero dependencies, fully gated
+   behind prefers-reduced-motion and pointer capability. */
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE_PTR = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+/* 1 · hero surname — split into staggered letters */
+(function splitName() {
+  const el = document.querySelector('.hn-bot span');
+  if (!el || REDUCED) return;
+  const txt = el.textContent;
+  el.textContent = '';
+  el.style.opacity = '1';
+  el.style.animation = 'none';
+  [...txt].forEach((ch, i) => {
+    const s = document.createElement('span');
+    s.className = 'lt-ch';
+    s.style.setProperty('--ci', i);
+    s.textContent = ch;
+    el.appendChild(s);
+  });
+})();
+
+/* 2 · hero parallax — leaf mark + glow drift with the mouse */
+if (FINE_PTR && !REDUCED) {
+  const leaf = document.querySelector('.h-leaf');
+  const glow = document.querySelector('.h-g');
+  const hero = document.querySelector('.hero');
+  let px = 0, py = 0, tx = 0, ty = 0, raf = null;
+  hero.addEventListener('mousemove', e => {
+    tx = (e.clientX / innerWidth - .5);
+    ty = (e.clientY / innerHeight - .5);
+    if (!raf) raf = requestAnimationFrame(function step() {
+      px += (tx - px) * .06; py += (ty - py) * .06;
+      if (leaf) leaf.style.translate = `${px * -26}px ${py * -16}px`;
+      if (glow) glow.style.translate = `${px * 14}px ${py * 10}px`;
+      if (Math.abs(tx - px) > .001 || Math.abs(ty - py) > .001) raf = requestAnimationFrame(step);
+      else raf = null;
+    });
+  }, {passive: true});
 }
+
+/* 3 · magnetic buttons — pull gently toward the cursor */
+if (FINE_PTR && !REDUCED) {
+  document.querySelectorAll('.btn-p,.btn-s,.nbtn').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const dx = (e.clientX - r.left - r.width / 2) / r.width;
+      const dy = (e.clientY - r.top - r.height / 2) / r.height;
+      btn.style.translate = `${dx * 8}px ${dy * 5}px`;
+    }, {passive: true});
+    btn.addEventListener('mouseleave', () => { btn.style.translate = '0px 0px'; });
+  });
+}
+
+/* 4 · expertise + case-study cards — 3D tilt (front face only) */
+if (FINE_PTR && !REDUCED) {
+  document.querySelectorAll('.ec,.cs-card').forEach(card => {
+    card.style.perspective = '900px';
+    const target = card.classList.contains('cs-card') ? card.querySelector('.cs-cover') : null;
+    card.addEventListener('mousemove', e => {
+      if (card.classList.contains('flipped')) return;
+      const r = card.getBoundingClientRect();
+      const rx = ((e.clientY - r.top) / r.height - .5) * -5;
+      const ry = ((e.clientX - r.left) / r.width - .5) * 5;
+      (target || card).style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+    }, {passive: true});
+    card.addEventListener('mouseleave', () => { (target || card).style.transform = ''; });
+  });
+}
+
+/* 5 · timeline — line draws in with scroll progress */
+(function tlDraw() {
+  const tl = document.querySelector('.tl');
+  if (!tl || REDUCED) return;
+  const setP = () => {
+    const r = tl.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (innerHeight * .82 - r.top) / r.height));
+    tl.style.setProperty('--tlp', p.toFixed(3));
+  };
+  setP();
+  window.addEventListener('scroll', setP, {passive: true});
+})();
+
+/* 6 · case-study cards — staggered entrance via the proven
+   .rv reveal system (classes added before the reveal IO runs) */
+document.querySelectorAll('.cs-card').forEach((c, i) => {
+  c.classList.add('rv');
+  c.style.transitionDelay = ((i % 3) * .11) + 's';
+});
 
 document.querySelectorAll('a,button,.ec,.avi,.sk,.cpill').forEach(el => {
   el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
@@ -1724,8 +1945,8 @@ document.querySelectorAll('.ec').forEach(c => {
   });
 });
 
-/* CARD FLIP */
-function flipCard(card) { card.classList.toggle('flipped'); }
+/* CARD FLIP — clear any hover tilt so the flip sits flat */
+function flipCard(card) { card.classList.toggle('flipped'); card.style.transform = ''; }
 
 /* CONTACT FORM → mailto */
 document.getElementById('cform').addEventListener('submit', function(e) {
@@ -1751,18 +1972,18 @@ document.getElementById('cform').addEventListener('submit', function(e) {
 
 /* OPEN-TO CARD FLIP */
 /* PDF LIGHTBOX */
-const PDF_RESUME_URI = 'docs/Faysal-I-Malik-Resume-June-2026.pdf';
-const PDF_CL_URI = 'docs/Faysal-I-Malik-Cover-Letter-June-2026.pdf';
+const PDF_RESUME_URI = 'docs/Faysal-I-Malik-Resume-July-2026.pdf';
+const PDF_CL_URI = 'docs/Faysal-I-Malik-Cover-Letter-July-2026.pdf';
 const PDF_DATA = {
   resume: {
-    title: 'RÉSUMÉ — Faysal I. Malik · June 2026',
+    title: 'RÉSUMÉ — Faysal I. Malik · July 2026',
     uri: PDF_RESUME_URI,
-    filename: 'Faysal-I-Malik-Resume-June-2026.pdf'
+    filename: 'Faysal-I-Malik-Resume-July-2026.pdf'
   },
   coverletter: {
-    title: 'COVER LETTER — Faysal I. Malik · June 2026',
+    title: 'COVER LETTER — Faysal I. Malik · July 2026',
     uri: PDF_CL_URI,
-    filename: 'Faysal-I-Malik-Cover-Letter-June-2026.pdf'
+    filename: 'Faysal-I-Malik-Cover-Letter-July-2026.pdf'
   }
 };
 function openPDF(key) {
@@ -1815,6 +2036,7 @@ document.querySelectorAll('.ec,.ot-card').forEach(card => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       card.classList.toggle('flipped');
+      card.style.transform = '';
       card.setAttribute('aria-pressed', card.classList.contains('flipped'));
     }
   });
